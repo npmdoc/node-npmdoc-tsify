@@ -63,6 +63,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.tsify.tsify">
+            function <span class="apidocSignatureSpan"></span>tsify
+            <span class="apidocSignatureSpan">(b, opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">tsify.</span>time</span>
 
         </li>
@@ -95,6 +104,105 @@
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.tsify" id="apidoc.module.tsify">module tsify</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.tsify.tsify" id="apidoc.element.tsify.tsify">
+        function <span class="apidocSignatureSpan"></span>tsify
+        <span class="apidocSignatureSpan">(b, opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function tsify(b, opts) {
+
+	if (typeof b === &#x27;string&#x27;) {
+		throw new Error(&#x27;tsify appears to have been configured as a transform; it must be configured as a plugin.&#x27;);
+	}
+	var ts = opts.typescript || require(&#x27;typescript&#x27;);
+	if (typeof ts === &#x27;string&#x27; || ts instanceof String) {
+		ts = require(ts);
+	}
+
+	var Tsifier = require(&#x27;./lib/Tsifier&#x27;)(ts);
+	var tsifier = new Tsifier(opts, b._options);
+
+	tsifier.on(&#x27;error&#x27;, function (error) {
+		b.pipeline.emit(&#x27;error&#x27;, error);
+	});
+	tsifier.on(&#x27;file&#x27;, function (file, id) {
+		b.emit(&#x27;file&#x27;, file, id);
+	});
+
+	setupPipeline();
+
+	var transformOpts = {
+		global: opts.global
+	};
+	b.transform(tsifier.transform.bind(tsifier), transformOpts);
+
+	b.on(&#x27;reset&#x27;, function () {
+		setupPipeline();
+	});
+
+	function setupPipeline() {
+		if (tsifier.opts.jsx &#x26;&#x26; b._extensions.indexOf(&#x27;.tsx&#x27;) === -1)
+			b._extensions.unshift(&#x27;.tsx&#x27;);
+
+		if (b._extensions.indexOf(&#x27;.ts&#x27;) === -1)
+			b._extensions.unshift(&#x27;.ts&#x27;);
+
+		b.pipeline.get(&#x27;record&#x27;).push(gatherEntryPoints());
+	}
+
+	function gatherEntryPoints() {
+		var rows = [];
+		return through.obj(transform, flush);
+
+		function transform(row, enc, next) {
+			rows.push(row);
+			next();
+		}
+
+		function flush(next) {
+			var self = this;
+			var ignoredFiles = [];
+			var entryFiles = rows
+				.map(function (row) {
+					var file = row.file || row.id;
+					if (file) {
+						if (row.source !== undefined) {
+							ignoredFiles.push(file);
+						} else if (row.basedir) {
+							return path.resolve(row.basedir, file);
+						} else if (path.isAbsolute(file)) {
+							return file;
+						} else {
+							ignoredFiles.push(file);
+						}
+					}
+					return null;
+				})
+				.filter(function (file) { return file; })
+				.map(function (file) { return realpath.realpathSync(file); });
+			if (entryFiles.length) {
+				log(&#x27;Files from browserify entry points:&#x27;);
+				entryFiles.forEach(function (file) { log(&#x27;  %s&#x27;, file); });
+			}
+			if (ignoredFiles.length) {
+				log(&#x27;Ignored browserify entry points:&#x27;);
+				ignoredFiles.forEach(function (file) { log(&#x27;  %s&#x27;, file); });
+			}
+			tsifier.reset();
+			tsifier.generateCache(entryFiles, ignoredFiles);
+			rows.forEach(function (row) { self.push(row); });
+			self.push(null);
+			next();
+		}
+	}
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 
 
