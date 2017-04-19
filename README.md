@@ -1,9 +1,14 @@
-# api documentation for  [tsify (v3.0.1)](https://github.com/TypeStrong/tsify)  [![npm package](https://img.shields.io/npm/v/npmdoc-tsify.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-tsify) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-tsify.svg)](https://travis-ci.org/npmdoc/node-npmdoc-tsify)
+# npmdoc-tsify
+
+#### api documentation for  [tsify (v3.0.1)](https://github.com/TypeStrong/tsify)  [![npm package](https://img.shields.io/npm/v/npmdoc-tsify.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-tsify) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-tsify.svg)](https://travis-ci.org/npmdoc/node-npmdoc-tsify)
+
 #### Browserify plugin for compiling Typescript
 
-[![NPM](https://nodei.co/npm/tsify.png?downloads=true)](https://www.npmjs.com/package/tsify)
+[![NPM](https://nodei.co/npm/tsify.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/tsify)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-tsify/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-tsify_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-tsify/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-tsify/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-tsify/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-tsify/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-tsify/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-tsify/build/screenCapture.npmPackageListing.svg)
 
@@ -65,16 +70,13 @@
     "main": "index.js",
     "maintainers": [
         {
-            "name": "basarat",
-            "email": "basaratali@gmail.com"
+            "name": "basarat"
         },
         {
-            "name": "cartant",
-            "email": "nicholas@cartant.com"
+            "name": "cartant"
         },
         {
-            "name": "smrq",
-            "email": "smr.kyu@gmail.com"
+            "name": "smrq"
         }
     ],
     "name": "tsify",
@@ -83,7 +85,6 @@
         "browserify": ">= 10.x",
         "typescript": ">= 2.x"
     },
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git://github.com/TypeStrong/tsify.git"
@@ -95,81 +96,6 @@
     },
     "version": "3.0.1"
 }
-```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module tsify](#apidoc.module.tsify)
-1.  object <span class="apidocSignatureSpan">tsify.</span>time
-
-#### [module tsify.time](#apidoc.module.tsify.time)
-1.  [function <span class="apidocSignatureSpan">tsify.time.</span>start ()](#apidoc.element.tsify.time.start)
-1.  [function <span class="apidocSignatureSpan">tsify.time.</span>stop (t0, message)](#apidoc.element.tsify.time.stop)
-
-
-
-# <a name="apidoc.module.tsify"></a>[module tsify](#apidoc.module.tsify)
-
-
-
-# <a name="apidoc.module.tsify.time"></a>[module tsify.time](#apidoc.module.tsify.time)
-
-#### <a name="apidoc.element.tsify.time.start"></a>[function <span class="apidocSignatureSpan">tsify.time.</span>start ()](#apidoc.element.tsify.time.start)
-- description and source-code
-```javascript
-function start() {
-	return process.hrtime();
-}
-```
-- example usage
-```shell
-...
-			self.host._addFile(file, true);
-		});
-	};
-
-	Tsifier.prototype.compile = function () {
-		var self = this;
-
-		var createProgram_t0 = time.start();
-		var program = self.host._compile(self.opts);
-		time.stop(createProgram_t0, 'createProgram');
-
-		var syntaxDiagnostics = self.checkSyntax(program);
-		if (syntaxDiagnostics.length) {
-			log('Compilation encountered fatal syntax errors');
-			return;
-...
-```
-
-#### <a name="apidoc.element.tsify.time.stop"></a>[function <span class="apidocSignatureSpan">tsify.time.</span>stop (t0, message)](#apidoc.element.tsify.time.stop)
-- description and source-code
-```javascript
-function stop(t0, message) {
-	var tDiff = process.hrtime(t0);
-	log('%d sec -- %s', (tDiff[0] + (tDiff[1] / 1000000000)).toFixed(4), message);
-}
-```
-- example usage
-```shell
-...
-	};
-
-	Tsifier.prototype.compile = function () {
-		var self = this;
-
-		var createProgram_t0 = time.start();
-		var program = self.host._compile(self.opts);
-		time.stop(createProgram_t0, 'createProgram');
-
-		var syntaxDiagnostics = self.checkSyntax(program);
-		if (syntaxDiagnostics.length) {
-			log('Compilation encountered fatal syntax errors');
-			return;
-		}
-...
 ```
 
 
